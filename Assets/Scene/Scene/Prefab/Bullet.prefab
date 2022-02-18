@@ -49,6 +49,36 @@ MonoBehaviour:
   _rb: {fileID: 7551320715217455284}
   _speed: 0.3
   _collisionCooldown: 0.1
+  _onSFX:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8300000, guid: aebefc666a642f142a7d9e407d4209bb, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Play
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onFX:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1306484939152386022, guid: beaf1a539f0c036478224e95a7187b85, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &721766070828420108
 BoxCollider2D:
   m_ObjectHideFlags: 0

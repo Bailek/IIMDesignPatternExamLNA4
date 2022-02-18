@@ -10,6 +10,10 @@ public class Bullet : MonoBehaviour
     [SerializeField] float _speed;
     [SerializeField] float _collisionCooldown = 0.5f;
 
+    //ajout event SFX et FX
+    [SerializeField] UnityEvent _onSFX;
+    [SerializeField] UnityEvent _onFX;
+
     public Vector3 Direction { get; private set; }
     public int Power { get; private set; }
     float LaunchTime { get; set; }
@@ -36,19 +40,36 @@ public class Bullet : MonoBehaviour
     {
         if (Time.fixedTime < LaunchTime + _collisionCooldown) return;
 
+        collision.GetComponent<ITouchable>()?.Touch(Power);
         collision.GetComponent<IHealth>()?.TakeDamage(Power);
-        Destroy(gameObject);
+        // invoke les FX et SFX
+        _onSFX.Invoke();
+        _onFX.Invoke();
+
+        //desactive les bullet
+        gameObject.SetActive(false);
     }
+
+    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (Time.fixedTime < LaunchTime + _collisionCooldown) return;
 
+        collision.collider.GetComponent<ITouchable>()?.Touch(Power);
         collision.collider.GetComponent<IHealth>()?.TakeDamage(Power);
-        Destroy(gameObject);
+
+        // invoke les FX et SFX
+        _onSFX.Invoke();
+        _onFX.Invoke();
+
+        //desactive les bullet
+        gameObject.SetActive(false);
     }
 
     private void Health_OnDamage(int arg0)
     {
         throw new NotImplementedException();
     }
+
 }

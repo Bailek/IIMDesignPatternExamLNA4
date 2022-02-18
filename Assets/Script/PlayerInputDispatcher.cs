@@ -10,11 +10,16 @@ public class PlayerInputDispatcher : MonoBehaviour
 
     [SerializeField] EntityMovement _movement;
     [SerializeField] EntityFire _fire;
+    [SerializeField] EntityDefense _defense;
 
     [SerializeField] InputActionReference _pointerPosition;
     [SerializeField] InputActionReference _moveJoystick;
     [SerializeField] InputActionReference _fireButton;
-
+    // Add Variable Input Defense
+    [SerializeField] InputActionReference _defenseButton;
+    // Add Variable Bool OnDefense
+    private bool _onDef = false;
+    [SerializeField] GameObject Shield;
     Coroutine MovementTracking { get; set; }
 
     Vector3 ScreenPositionToWorldPosition(Camera c, Vector2 cursorPosition) => _mainCamera.ScreenToWorldPoint(cursorPosition);
@@ -23,6 +28,9 @@ public class PlayerInputDispatcher : MonoBehaviour
     {
         // binding
         _fireButton.action.started += FireInput;
+        // Add Input Defense
+        _defenseButton.action.started += DefenseInput;
+        _defenseButton.action.canceled += DefenseInputCancel;
 
         _moveJoystick.action.started += MoveInput;
         _moveJoystick.action.canceled += MoveInputCancel;
@@ -31,6 +39,9 @@ public class PlayerInputDispatcher : MonoBehaviour
     private void OnDestroy()
     {
         _fireButton.action.started -= FireInput;
+        // Remove Input Defense
+        _defenseButton.action.started -= DefenseInput;
+        _defenseButton.action.canceled -= DefenseInputCancel;
 
         _moveJoystick.action.started -= MoveInput;
         _moveJoystick.action.canceled -= MoveInputCancel;
@@ -62,11 +73,28 @@ public class PlayerInputDispatcher : MonoBehaviour
 
     private void FireInput(InputAction.CallbackContext obj)
     {
-        float fire = obj.ReadValue<float>();
-        if(fire==1)
+        if(_onDef == false)
         {
-            _fire.FireBullet(2);
+            float fire = obj.ReadValue<float>();
+            if (fire == 1)
+            {
+                _fire.FireBullet(2);
+            }
         }
+        
     }
-
+    // Fonction DefenseInput 
+    private void DefenseInput(InputAction.CallbackContext obj)
+    {
+        _defense.Defense(true);
+        _onDef = true;
+        Shield.SetActive(true);
+    }
+    // Fonction DefenseInputCancel
+    private void DefenseInputCancel(InputAction.CallbackContext obj)
+    {
+        _defense.Defense(false);
+        _onDef = false;
+        Shield.SetActive(false);
+    }
 }
